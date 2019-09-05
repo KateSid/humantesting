@@ -2,11 +2,10 @@ package ru.sidorova.humantesting.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="usr")
@@ -14,12 +13,11 @@ public class User implements Serializable {
     @Id
     private String id;
     private String name;
-    private String userpic;
     private String email;
-    private String gender;
-    private String locale;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime lastVisit;
+    @OneToMany(mappedBy = "master", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserAnswer> answers;
 
     public String getId() {
         return id;
@@ -37,36 +35,12 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getUserpic() {
-        return userpic;
-    }
-
-    public void setUserpic(String userpic) {
-        this.userpic = userpic;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getLocale() {
-        return locale;
-    }
-
-    public void setLocale(String locale) {
-        this.locale = locale;
     }
 
     public LocalDateTime getLastVisit() {
